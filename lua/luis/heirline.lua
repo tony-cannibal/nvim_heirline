@@ -1,14 +1,14 @@
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 
-local Align = { provider = "%=" }
-local Space = { provider = " " }
 
 local colors = {
     normal_fg = utils.get_highlight("Normal").fg,
     normal_bg = utils.get_highlight("Normal").bg,
     bright_bg = utils.get_highlight("Folded").bg,
     bright_fg = utils.get_highlight("Folded").fg,
+    dir_fg = utils.get_highlight("Directory").fg,
+    dir_bg = utils.get_highlight("Directory").fg,
     red = utils.get_highlight("DiagnosticError").fg,
     dark_red = utils.get_highlight("DiffDelete").bg,
     green = utils.get_highlight("String").fg,
@@ -26,10 +26,6 @@ local colors = {
     git_change = utils.get_highlight("diffChange").fg,
 }
 
-local Sep = {
-    provider = "|",
-    bg = colors.blue
-}
 
 local ViMode = {
     -- get vim current mode, this information will be required by the provider
@@ -54,7 +50,7 @@ local ViMode = {
             nt = "Nt",
             v = "--Visual-- ",
             vs = "Vs",
-            V = "V_",
+            V = "--VBlock-- ",
             Vs = "Vs",
             ["\22"] = "^V",
             ["\22s"] = "^V",
@@ -70,7 +66,7 @@ local ViMode = {
             Rv = "Rv",
             Rvc = "Rv",
             Rvx = "Rv",
-            c = "C",
+            c = "--Command-- ",
             cv = "Ex",
             r = "...",
             rm = "M",
@@ -80,9 +76,9 @@ local ViMode = {
         },
         mode_colors = {
             n = colors.normal_bg ,
-            i = "green",
+            i = colors.normal_bg,
             v = "cyan",
-            V =  "cyan",
+            V =  colors.normal_bg,
             ["\22"] =  "cyan",
             c =  "orange",
             s =  "purple",
@@ -97,7 +93,7 @@ local ViMode = {
             n = colors.blue,
             i = colors.normal_fg,
             v = colors.blue,
-            V = colors.blue,
+            V = colors.green,
         }
     },
     -- We can now access the value of mode() that, by now, would have been
@@ -158,7 +154,8 @@ local FileName = {
     provider = function(self)
         -- first, trim the pattern relative to the current directory. For other
         -- options, see :h filename-modifers
-        local filename = vim.fn.fnamemodify(self.filename, ":.") .. " "
+        -- local filename = vim.fn.fnamemodify(self.filename, ":.") .. " "
+        local filename = vim.fn.fnamemodify(self.filename, ":p:t") .. " "
         if filename == "" then return "[No Name]" end
         -- now, if the filename would occupy more than 1/4th of the available
         -- space, we trim the file path to its initials
@@ -168,7 +165,7 @@ local FileName = {
         end
         return filename
     end,
-    hl = { fg = utils.get_highlight("Directory").fg },
+    hl = { fg = colors.dir_fg },
 }
 
 local FileFlags = {
@@ -176,8 +173,8 @@ local FileFlags = {
         condition = function()
             return vim.bo.modified
         end,
-        provider = "[+]",
-        hl = { fg = "green" },
+        provider = "[+] ",
+        hl = { fg = colors.normal_fg },
     },
     {
         condition = function()
@@ -284,8 +281,72 @@ local ScrollBar ={
     hl = { fg = colors.blue, bg = colors.bright_bg },
 }
 
+local FileEncoding = {
+    provider = function()
+        local enc = (vim.bo.fenc ~= '' and vim.bo.fenc) or vim.o.enc -- :h 'enc'
+        return enc ~= 'utf-8' and enc:upper()
+    end
+}
+
+local FileType = {
+    provider = function()
+        return string.upper(vim.bo.filetype) .. ' '
+    end,
+    hl = { fg = utils.get_highlight("Type").fg, bold = true },
+}
+
+local FileFormat = {
+    provider = function()
+        local fmt = " " .. vim.bo.fileformat .. " "
+        return fmt -- ~= 'unix' and fmt:upper()
+    end,
+    hl = {fg = colors.normal_fg, bold = true ,bg = colors.bright_bg},
+}
+
+-- We're getting minimalists here!
+local Ruler = {
+    -- %l = current line number
+    -- %L = number of lines in the buffer
+    -- %c = column number
+    -- %P = percentage through file of displayed window
+    -- provider = " %7(%l/%3L%):%2c %P",
+    provider = " %(%l/%L%):%2c %P",
+}
+
+local Sep = {
+    provider = "|",
+    hl = {bg = colors.bright_bg}
+}
+
+local LSPActive = {
+    condition = conditions.lsp_attached,
+    update = {'LspAttach', 'LspDetach'},
+
+    -- You can keep it simple,
+    -- provider = " [LSP]",
+
+    -- Or complicate things a bit and get the servers names
+    provider  = function()
+        local names = {}
+        for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+            table.insert(names, server.name)
+        end
+        -- return "  [" .. table.concat(names, ", ") .. "]"
+        return "  " .. names[1] .. " "
+    end,
+    hl = { fg = colors.normal_fg, bold = true, bg = colors.bright_bg },
+}
+
+local Space = { 
+    provider = " ",
+    bg = colors.bright_bg,
+}
+
+local Align = { provider = "%=" }
+
+
 local StatusLine = {
-    {{ViMode, Diagnostics}},{Align, {Space,FileNameBlock, Space, ScrollBar, Space}}
+    {{ViMode, Diagnostics}},{Align, {Space, LSPActive, Sep, FileFormat, FileNameBlock, Ruler, Space, ScrollBar, Space}}
 }
 
 require("heirline").setup({

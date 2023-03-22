@@ -9,4 +9,4 @@ require "luis.autopairs"
 require "luis.comment"
 require "luis.heirline"
 require "luis.bufferline"
-
+require "luis.toggleterm"
