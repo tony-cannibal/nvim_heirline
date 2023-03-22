@@ -36,7 +36,7 @@ lsp.preset({
 lsp.ensure_installed({
     'lua_ls',
     'tsserver',
-    'jedi_language_server',
+    'pyright',
     'rust_analyzer'
 })
 

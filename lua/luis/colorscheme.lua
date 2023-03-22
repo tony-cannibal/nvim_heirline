@@ -31,16 +31,10 @@ local color_chemes = {
     "base16-solarized-dark",
     "gruvbox",
     "solarized",
-    "base16-gruvbox-dark-soft"
+    "base16-gruvbox-dark-medium",
+    "everforest",
 }
 
 -- 8 = xresources
 
 ColorScheme(color_chemes[4], transparent)
-
-vim.cmd[[
-    let g:airline#extensions#coc#enabled = 1
-    let g:airline#extensions#coc#show_coc_status = 1
-    let airline#extensions#coc#error_symbol = 'E:'
-    let airline#extensions#coc#warning_symbol = 'W:'
-]]

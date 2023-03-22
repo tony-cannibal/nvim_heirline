@@ -72,7 +72,7 @@ local ViMode = {
             rm = "M",
             ["r?"] = "?",
             ["!"] = "!",
-            t = "T",
+            t = "--Terminal-- ",
         },
         mode_colors = {
             n = colors.normal_bg ,
@@ -94,6 +94,7 @@ local ViMode = {
             i = colors.normal_fg,
             v = colors.blue,
             V = colors.green,
+            t = colors.normal_fg
         }
     },
     -- We can now access the value of mode() that, by now, would have been
@@ -351,4 +352,14 @@ local StatusLine = {
 
 require("heirline").setup({
     statusline = StatusLine,
+    opts = {
+        -- if the callback returns true, the winbar will be disabled for that window
+        -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
+        disable_winbar_cb = function(args)
+            local buf = args.buf
+            local buftype = vim.tbl_contains({ "prompt", "nofile", "help", "quickfix", "NvimTree_1" }, vim.bo[buf].buftype)
+            local filetype = vim.tbl_contains({ "gitcommit", "fugitive", "Trouble", "packer", "nvimtree_1" }, vim.bo[buf].filetype)
+            return buftype or filetype
+        end,
+    },
 })

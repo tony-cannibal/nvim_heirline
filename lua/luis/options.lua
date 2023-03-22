@@ -31,7 +31,7 @@ vim.opt.termguicolors = true
 vim.opt.showmode = false
 vim.opt.list = true
 vim.opt.colorcolumn = "80"
-
+vim.opt.laststatus = 3
 vim.opt.winblend = 0
 vim.opt.wildoptions = 'pum'
 vim.opt.pumblend = 5

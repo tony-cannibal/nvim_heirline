@@ -21,7 +21,7 @@ vim.g.maplocalleader = " "
 
 keymap("n", "<leader>w", ':w<CR>', { noremap = true })
 keymap("n", "<leader>W", ':wa<CR>', { noremap = true })
-keymap("n", "<leader>q", ':q!<CR>', { noremap = true })
+keymap("n", "<leader>q", ':q!<CR>', { noremap = true, silent = true })
 keymap("n", "<leader>v", ':vsplit<CR>', opts)
 keymap("n", "<leader>c", ':bd<CR>', opts)
 keymap('n', ';', ':', {})

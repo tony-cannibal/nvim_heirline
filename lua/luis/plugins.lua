@@ -52,7 +52,7 @@ return packer.startup(function(use)
     use { 'nvim-telescope/telescope.nvim', tag = '0.1.0' }
     use { "windwp/nvim-autopairs" }
     use { 'lewis6991/impatient.nvim' }
-    -- use {'sheerun/vim-polyglot'}
+    use {'sheerun/vim-polyglot'}
 
     -- Color Schemes
     use { 'folke/tokyonight.nvim' }
@@ -67,7 +67,7 @@ return packer.startup(function(use)
     use { "ntk148v/komau.vim" } -- Packer
     use { "ellisonleao/gruvbox.nvim" }
     use { 'ishan9299/nvim-solarized-lua' }
-    use {'chriskempson/base16-vim'}
+    -- use {'chriskempson/base16-vim'}
 
     -- LSP
     use {
@@ -92,13 +92,13 @@ return packer.startup(function(use)
     use { "jose-elias-alvarez/null-ls.nvim" }
     use { "jay-babu/mason-null-ls.nvim" }
 
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        run = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end,
-    }
+    -- use {
+    --     'nvim-treesitter/nvim-treesitter',
+    --     run = function()
+    --         local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+    --         ts_update()
+    --     end,
+    -- }
     use { "RRethy/vim-illuminate" }
 
     use { 'goolord/alpha-nvim' }
@@ -113,7 +113,7 @@ return packer.startup(function(use)
     use { 'petertriho/nvim-scrollbar' }
 
     use { 'tpope/vim-fugitive' }
-    use { 'p00f/nvim-ts-rainbow' }
+    -- use { 'p00f/nvim-ts-rainbow' }
     use {"folke/which-key.nvim",
             config = function()
                 vim.o.timeout = true
