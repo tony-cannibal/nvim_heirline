@@ -37,4 +37,4 @@ local color_chemes = {
 
 -- 8 = xresources
 
-ColorScheme(color_chemes[4], transparent)
+ColorScheme(color_chemes[2], transparent)

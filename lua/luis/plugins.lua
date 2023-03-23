@@ -127,6 +127,9 @@ return packer.startup(function(use)
         }
     use {"rebelot/heirline.nvim"}
     use { 'ThePrimeagen/vim-be-good' }
+    use { 'lewis6991/gitsigns.nvim',
+        tag = 'release' -- To use the latest release (do not use this if you run Neovim nightly or dev builds!)
+    }
 
     if PACKER_BOOTSTRAP then
         require("packer").sync()

@@ -5,8 +5,14 @@ local utils = require("heirline.utils")
 local colors = {
     normal_fg = utils.get_highlight("Normal").fg,
     normal_bg = utils.get_highlight("Normal").bg,
+    pmenu_fg = utils.get_highlight("PMenu").fg,
+    pmenu_bg = utils.get_highlight("PMenu").bg,
     bright_bg = utils.get_highlight("Folded").bg,
     bright_fg = utils.get_highlight("Folded").fg,
+    fc_bg = utils.get_highlight("FoldColumn").bg,
+    fc_fg = utils.get_highlight("FoldColumn").fg,
+    debug_fg = utils.get_highlight("Debug").fg,
+    debug_bg = utils.get_highlight("Debug").bg,
     dir_fg = utils.get_highlight("Directory").fg,
     dir_bg = utils.get_highlight("Directory").fg,
     red = utils.get_highlight("DiagnosticError").fg,
@@ -75,10 +81,10 @@ local ViMode = {
             t = "--Terminal-- ",
         },
         mode_colors = {
-            n = colors.normal_bg ,
-            i = colors.normal_bg,
-            v = "cyan",
-            V =  colors.normal_bg,
+            n = colors.pmenu_bg ,
+            i = colors.pmenu_bg,
+            v = colors.pmenu_bg,
+            V = colors.pmenu_bg,
             ["\22"] =  "cyan",
             c =  "orange",
             s =  "purple",
@@ -87,14 +93,14 @@ local ViMode = {
             R =  "orange",
             r =  "orange",
             ["!"] =  "red",
-            t =  "red",
+            t = colors.pmenu_bg,
         },
         mode_bg = {
-            n = colors.blue,
+            n = colors.dir_fg,
             i = colors.normal_fg,
-            v = colors.blue,
+            v = colors.fc_fg,
             V = colors.green,
-            t = colors.normal_fg
+            t = colors.debug_fg
         }
     },
     -- We can now access the value of mode() that, by now, would have been
@@ -181,7 +187,7 @@ local FileFlags = {
         condition = function()
             return not vim.bo.modifiable or vim.bo.readonly
         end,
-        provider = "",
+        provider = " ",
         hl = { fg = "orange" },
     },
 }
@@ -266,6 +272,64 @@ local Diagnostics = {
     },
 }
 
+local Git = {
+    condition = conditions.is_git_repo,
+
+    init = function(self)
+        self.status_dict = vim.b.gitsigns_status_dict
+        -- self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
+        self.has_changes = true
+        end,
+
+    hl = { fg = "orange", bg = colors.bright_bg },
+
+
+    {   -- git branch name
+        provider = function(self)
+            return "  " .. self.status_dict.head
+        end,
+        hl = { bold = true }
+    },
+    -- You could handle delimiters, icons and counts similar to Diagnostics
+    {
+        condition = function(_)
+            -- return self.has_changes
+            return true
+        end,
+        provider = " ( "
+    },
+    {
+        provider = function(self)
+            local count = self.status_dict.added or 0
+            -- return count > 0 and ("+" .. count)
+            return  "+" .. count .. " "
+        end,
+        hl = { fg = colors.git_add },
+    },
+    {
+        provider = function(self)
+            local count = self.status_dict.removed or 0
+            -- return count > 0 and ("-" .. count)
+            return "-" .. count .. " "
+        end,
+        hl = { fg = colors.git_del },
+    },
+    {
+        provider = function(self)
+            local count = self.status_dict.changed or 0
+            -- return count > 0 and ("~" .. count)
+            return "~" .. count .. " "
+        end,
+        hl = { fg = colors.git_change },
+    },
+    {
+        condition = function(self)
+            return self.has_changes
+        end,
+        provider = ") ",
+    },
+}
+
 -- I take no credits for this! :lion:
 local ScrollBar ={
     static = {
@@ -279,7 +343,7 @@ local ScrollBar ={
         local i = math.floor((curr_line - 1) / lines * #self.sbar) + 1
         return string.rep(self.sbar[i], 2)
     end,
-    hl = { fg = colors.blue, bg = colors.bright_bg },
+    hl = { fg = colors.dir_fg, bg = colors.bright_bg },
 }
 
 local FileEncoding = {
@@ -299,7 +363,7 @@ local FileType = {
 local FileFormat = {
     provider = function()
         local fmt = " " .. vim.bo.fileformat .. " "
-        return fmt -- ~= 'unix' and fmt:upper()
+        return fmt ~= 'unix' and fmt:upper()
     end,
     hl = {fg = colors.normal_fg, bold = true ,bg = colors.bright_bg},
 }
@@ -347,19 +411,9 @@ local Align = { provider = "%=" }
 
 
 local StatusLine = {
-    {{ViMode, Diagnostics}},{Align, {Space, LSPActive, Sep, FileFormat, FileNameBlock, Ruler, Space, ScrollBar, Space}}
+    {{ViMode, Diagnostics, Git},{Align}, {Space, LSPActive, Sep, FileFormat, FileNameBlock, Ruler, Space, ScrollBar, Space}}
 }
 
 require("heirline").setup({
     statusline = StatusLine,
-    opts = {
-        -- if the callback returns true, the winbar will be disabled for that window
-        -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
-        disable_winbar_cb = function(args)
-            local buf = args.buf
-            local buftype = vim.tbl_contains({ "prompt", "nofile", "help", "quickfix", "NvimTree_1" }, vim.bo[buf].buftype)
-            local filetype = vim.tbl_contains({ "gitcommit", "fugitive", "Trouble", "packer", "nvimtree_1" }, vim.bo[buf].filetype)
-            return buftype or filetype
-        end,
-    },
 })
