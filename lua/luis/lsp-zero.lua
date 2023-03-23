@@ -26,10 +26,10 @@ lsp.preset({
     suggest_lsp_servers = false,
     cmp_capabilities = true,
     sign_icons = {
-        error = "",
-        warn = "",
-        hint = "",
-        info = "",
+        error = " ",
+        warn = " ",
+        hint = " ",
+        info = " ",
     },
 })
 

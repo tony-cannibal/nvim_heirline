@@ -65,7 +65,7 @@ bufferline.setup { options = {
                 filetype = "NvimTree",
                 text = "File Explorer", --| function ,
                 text_align = "center", -- "left" | "center" | "right"
-                separator = true,
+                separator = false,
             }
         },
         color_icons = true, -- | false, -- whether or not to add the filetype icon highlights
@@ -77,7 +77,7 @@ bufferline.setup { options = {
         show_duplicate_prefix = true, --| false, -- whether to show duplicate buffer prefix
         persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
         separator_style = "thick",   --"slant" | "thick" | "thin" | { 'any', 'any' },
-        enforce_regular_tabs = false, -- | true,
+        enforce_regular_tabs = true, -- | true,
         always_show_bufferline = true, -- | false,
         hover = {
             enabled = true,
@@ -95,11 +95,11 @@ bufferline.setup { options = {
           bg = { attribute = "bg", highlight = "TabLine" },
         },
 
-        -- buffer_selected = {
-        --   fg = {attribute='fg',highlight='#ff0000'},
-        --   bg = {attribute='bg',highlight='#0000ff'},
-        --   gui = 'none'
-        --   },
+        buffer_selected = {
+          fg = {attribute='fg',highlight='#ff0000'},
+          bg = {attribute='bg',highlight='#0000ff'},
+          italic = false,
+          },
         buffer_visible = {
           fg = { attribute = "fg", highlight = "TabLine" },
           bg = { attribute = "bg", highlight = "TabLine" },
@@ -121,15 +121,18 @@ bufferline.setup { options = {
         tab_selected = {
           fg = { attribute = "fg", highlight = "Normal" },
           bg = { attribute = "bg", highlight = "Normal" },
+          italic = false,
         },
         tab = {
           fg = { attribute = "fg", highlight = "TabLine" },
           bg = { attribute = "bg", highlight = "TabLine" },
+          italic = false,
         },
         tab_close = {
           -- fg = {attribute='fg',highlight='LspDiagnosticsDefaultError'},
           fg = { attribute = "fg", highlight = "TabLineSel" },
           bg = { attribute = "bg", highlight = "Normal" },
+          italic = false,
         },
 
         duplicate_selected = {
@@ -151,23 +154,28 @@ bufferline.setup { options = {
         modified = {
           fg = { attribute = "fg", highlight = "TabLine" },
           bg = { attribute = "bg", highlight = "TabLine" },
+          italic = false,
         },
         modified_selected = {
           fg = { attribute = "fg", highlight = "Normal" },
           bg = { attribute = "bg", highlight = "Normal" },
+          italic = false,
         },
         modified_visible = {
           fg = { attribute = "fg", highlight = "TabLine" },
           bg = { attribute = "bg", highlight = "TabLine" },
+          italic = false,
         },
 
         separator = {
           fg = { attribute = "bg", highlight = "TabLine" },
           bg = { attribute = "bg", highlight = "TabLine" },
+          italic = false,
         },
         separator_selected = {
           fg = { attribute = "bg", highlight = "Normal" },
           bg = { attribute = "bg", highlight = "Normal" },
+          italic = false,
         },
         -- separator_visible = {
         --   fg = {attribute='bg',highlight='TabLine'},
@@ -176,6 +184,7 @@ bufferline.setup { options = {
         indicator_selected = {
           fg = { attribute = "fg", highlight = "LspDiagnosticsDefaultHint" },
           bg = { attribute = "bg", highlight = "Normal" },
+          italic = false,
         },
       },
 }

@@ -1,10 +1,18 @@
+local status_ok, heirline = pcall(require, "heirline")
+if not status_ok then
+    return
+end
+
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 
 
 local colors = {
+    bg = gui00,
     normal_fg = utils.get_highlight("Normal").fg,
     normal_bg = utils.get_highlight("Normal").bg,
+    conceal_fg = utils.get_highlight("Conceal").fg,
+    conceal_bg = utils.get_highlight("Conceal").bg,
     pmenu_fg = utils.get_highlight("PMenu").fg,
     pmenu_bg = utils.get_highlight("PMenu").bg,
     bright_bg = utils.get_highlight("Folded").bg,
@@ -14,7 +22,7 @@ local colors = {
     debug_fg = utils.get_highlight("Debug").fg,
     debug_bg = utils.get_highlight("Debug").bg,
     dir_fg = utils.get_highlight("Directory").fg,
-    dir_bg = utils.get_highlight("Directory").fg,
+    dir_bg = utils.get_highlight("Directory").bg,
     red = utils.get_highlight("DiagnosticError").fg,
     dark_red = utils.get_highlight("DiffDelete").bg,
     green = utils.get_highlight("String").fg,
@@ -31,6 +39,8 @@ local colors = {
     git_add = utils.get_highlight("diffAdded").fg,
     git_change = utils.get_highlight("diffChange").fg,
 }
+
+heirline.load_colors(colors)
 
 
 local ViMode = {
@@ -81,10 +91,10 @@ local ViMode = {
             t = "--Terminal-- ",
         },
         mode_colors = {
-            n = colors.pmenu_bg ,
-            i = colors.pmenu_bg,
-            v = colors.pmenu_bg,
-            V = colors.pmenu_bg,
+            n = "pmenu_bg",
+            i = "pmenu_bg",
+            v = "pmenu_bg",
+            V = "pmenu_bg",
             ["\22"] =  "cyan",
             c =  "orange",
             s =  "purple",
@@ -93,7 +103,7 @@ local ViMode = {
             R =  "orange",
             r =  "orange",
             ["!"] =  "red",
-            t = colors.pmenu_bg,
+            t = "pmenu_bg",
         },
         mode_bg = {
             n = colors.dir_fg,
@@ -249,7 +259,7 @@ local Diagnostics = {
     {
         provider = function(self)
             -- return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
-            return self.warn_icon .. self.warnings .. " "
+            return self.warn_icon .. "" .. self.warnings .. " "
         end,
         hl = { fg = colors.diag_warn },
     },
@@ -414,6 +424,6 @@ local StatusLine = {
     {{ViMode, Diagnostics, Git},{Align}, {Space, LSPActive, Sep, FileFormat, FileNameBlock, Ruler, Space, ScrollBar, Space}}
 }
 
-require("heirline").setup({
+heirline.setup({
     statusline = StatusLine,
 })
