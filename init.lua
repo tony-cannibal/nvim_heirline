@@ -15,7 +15,7 @@ require "luis.gitsigns"
 require "luis.scrollbar"
 require "luis.whichkey"
 
--- vim.g.gruvbox_termcolors = 1
+-- vim.g.gruvbox_termcolors = "hello"
 --
 -- print(vim.fn.exists('g:gruvbox_termcolors'))
 --
@@ -24,3 +24,5 @@ require "luis.whichkey"
 -- else
 --     print("no terminal")
 -- end
+-- print(vim.opt.number:get())
+-- print(vim.g.gruvbox_termcolors)

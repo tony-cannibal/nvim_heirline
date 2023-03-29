@@ -121,7 +121,7 @@ end
 -- }}}
 
 -- Vim Default Code Syntax {{{
-            
+
 local code_syntax = {
     Comment        = { fg = fg_dark, gui = 'italic' },
     Constant       = { fg = cyan },
@@ -170,7 +170,6 @@ for group, styles in pairs(code_syntax) do
     highlight(group, styles)
 end
 
--- }}}
 
 -- Plugin Highlight Groups {{{
 
@@ -188,9 +187,8 @@ for group, styles in pairs(plugin_syntax) do
     highlight(group, styles)
 end
 
--- }}}
 
--- Syntax Plugin And Language Highlight Groups {{{
+-- Syntax Plugin And Language Highlight Groups
 
 local lang_syntax = {
     xmlEndTag         = { fg = cyan, gui = 'italic' },
@@ -310,9 +308,8 @@ for group, styles in pairs(lang_syntax) do
     highlight(group, styles)
 end
 
--- }}}
 
--- Setting Neovim Terminal Color {{{
+-- Setting Neovim Terminal Color
 
 vim.g.terminal_color_0          = bg_dark
 vim.g.terminal_color_1          = red
@@ -333,4 +330,3 @@ vim.g.terminal_color_15         = white
 vim.g.terminal_color_background = bg_dark
 vim.g.terminal_color_foreground = fg_light
 
--- }}}

@@ -14,8 +14,7 @@ function ColorScheme(color, trans)
     color = color
     -- Set Transparent Background
 
-    vim.cmd.colorscheme(color)
-
+    vim.opt.background = 'dark' 
     if color == "gruvbox" then
         vim.cmd[[
             set background=light
@@ -30,6 +29,7 @@ function ColorScheme(color, trans)
         -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
         -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
     end
+    vim.cmd.colorscheme(color)
 end
 
 local transparent = false
