@@ -11,10 +11,17 @@
 
 function ColorScheme(color, trans)
 
-    color = color or "everforest"
+    color = color
     -- Set Transparent Background
 
     vim.cmd.colorscheme(color)
+
+    if color == "gruvbox" then
+        vim.cmd[[
+            set background=light
+            let g:gruvbox_contrast_dark = 'soft'
+        ]]
+    end
 
     if trans == true then
         vim.cmd[[
@@ -27,14 +34,17 @@ end
 
 local transparent = false
 
-local color_chemes = {
-    "base16-solarized-dark",
-    "gruvbox",
-    "solarized",
-    "base16-gruvbox-dark-medium",
-    "everforest",
+local color_schemes = {
+    "base16-solarized-dark",            -- 1
+    "gruvbox",                          -- 2
+    "solarized",                        -- 3
+    "base16-gruvbox-dark-medium",       -- 4
+    "everforest",                       -- 5
+    "custom",                           -- 6
+    "tokyonight-night"
 }
 
 -- 8 = xresources
 
-ColorScheme(color_chemes[2], transparent)
+ColorScheme(color_schemes[7], transparent)
+-- ColorScheme("gruvbox-material", transparent)

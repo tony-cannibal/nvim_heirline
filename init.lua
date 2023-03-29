@@ -14,3 +14,13 @@ require "luis.colorizer"
 require "luis.gitsigns"
 require "luis.scrollbar"
 require "luis.whichkey"
+
+-- vim.g.gruvbox_termcolors = 1
+--
+-- print(vim.fn.exists('g:gruvbox_termcolors'))
+--
+-- if vim.fn.exists("terminal") then
+--     print("has terminal")
+-- else
+--     print("no terminal")
+-- end

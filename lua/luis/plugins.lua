@@ -59,13 +59,11 @@ return packer.startup(function(use)
     use { 'Everblush/everblush.nvim', as = 'everblush' }
     use { "catppuccin/nvim", as = "catppuccin" }
     use { 'lifepillar/vim-solarized8' }
-    use { 'sainnhe/everforest' }
+    -- use { 'sainnhe/everforest' }
     use { 'sainnhe/gruvbox-material' }
+    use { 'morhetz/gruvbox' }
     use { 'sainnhe/sonokai' }
     use { 'sainnhe/edge' }
-    use { 'bluz71/vim-moonfly-colors', branch = 'cterm-compat' }
-    use { "ntk148v/komau.vim" } -- Packer
-    use { "ellisonleao/gruvbox.nvim" }
     use { 'ishan9299/nvim-solarized-lua' }
     -- use {'chriskempson/base16-vim'}
 
