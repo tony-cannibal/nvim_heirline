@@ -8,14 +8,10 @@ if not status_ok then
     return
 end
 
+
 mason_settings.set({
     ui = {
         border = "rounded",
-        -- icons = {
-        --         package_installed = "✓",
-        --         package_pending = "➜",
-        --         package_uninstalled = "✗"
-        --     }
     },
 })
 
@@ -40,7 +36,6 @@ lsp.ensure_installed({
     'rust_analyzer'
 })
 
-
 lsp.configure("sumneko_lua", {
     settings = {
         Lua = {
@@ -61,22 +56,7 @@ lsp.setup_nvim_cmp({
         winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
         zindex = 1001,
     },
-    -- formatting = {
-    -- 	-- changing the order of fields so the icon is the first
-    -- 	fields = { "menu", "abbr", "kind" },
-    -- 	-- here is where the change happens
-    -- 	format = function(entry, item)
-    -- 		local menu_icon = {
-    -- 			nvim_lsp = "λ",
-    -- 			luasnip = "⋗",
-    -- 			buffer = "Ω",
-    -- 			path = "🖫",
-    -- 			nvim_lua = "Π",
-    -- 		}
-    -- 		item.menu = menu_icon[entry.source.name]
-    -- 		return item
-    -- 	end,
-    -- },
+    preselect = 'none',
 })
 
 local function lsp_keymaps(bufnr)
@@ -134,7 +114,9 @@ require('mason-null-ls').setup({
         "prettier",
         "flake8",
         "autopep8"
-    }
+    },
+    automatic_setup = true,
+    handlers = {},
 })
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting

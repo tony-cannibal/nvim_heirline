@@ -8,7 +8,6 @@ local utils = require("heirline.utils")
 
 
 local colors = {
-    bg = gui00,
     normal_fg = utils.get_highlight("Normal").fg,
     normal_bg = utils.get_highlight("Normal").bg,
     conceal_fg = utils.get_highlight("Conceal").fg,

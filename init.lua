@@ -4,7 +4,7 @@ require "luis.plugins"
 require "luis.colorscheme"
 require "luis.lsp-zero"
 require "luis.nvimtree"
--- require "luis.treesitter"
+require "luis.treesitter"
 require "luis.autopairs"
 require "luis.comment"
 require "luis.heirline"
@@ -17,7 +17,7 @@ require "luis.whichkey"
 
 -- vim.g.gruvbox_termcolors = "hello"
 --
--- print(vim.fn.exists('g:gruvbox_termcolors'))
+-- print(vim.fn.exists('g:gruvbox_termcolorsv'))
 --
 -- if vim.fn.exists("terminal") then
 --     print("has terminal")
