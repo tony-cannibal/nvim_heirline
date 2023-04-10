@@ -21,7 +21,7 @@ require "luis.whichkey"
 --
 -- if vim.fn.exists("terminal") then
 --     print("has terminal")
--- else
+-- 
 --     print("no terminal")
 -- end
 -- print(vim.opt.number:get())
