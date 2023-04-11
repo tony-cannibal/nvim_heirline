@@ -53,7 +53,8 @@ local ViMode = {
     -- corresponding string and color. We can put these into `static` to compute
     -- them at initialisation time.
     static = {
-        mode_names = { -- change the strings if you like it vvvvverbose!
+        mode_names = {
+                       -- change the strings if you like it vvvvverbose!
             n = "--Normal-- ",
             no = "N?",
             nov = "N?",
@@ -94,14 +95,14 @@ local ViMode = {
             i = "pmenu_bg",
             v = "pmenu_bg",
             V = "pmenu_bg",
-            ["\22"] =  "cyan",
-            c =  "orange",
-            s =  "purple",
-            S =  "purple",
-            ["\19"] =  "purple",
-            R =  "orange",
-            r =  "orange",
-            ["!"] =  "red",
+            ["\22"] = "cyan",
+            c = "orange",
+            s = "purple",
+            S = "purple",
+            ["\19"] = "purple",
+            R = "orange",
+            r = "orange",
+            ["!"] = "red",
             t = "pmenu_bg",
         },
         mode_bg = {
@@ -120,7 +121,7 @@ local ViMode = {
     -- control the padding and make sure our string is always at least 2
     -- characters long. Plus a nice Icon.
     provider = function(self)
-        return " %2("..self.mode_names[self.mode].."%)"
+        return " %2(" .. self.mode_names[self.mode] .. "%)"
     end,
     -- Same goes for the highlight. Now the foreground will change according to the current mode.
     hl = function(self)
@@ -159,7 +160,7 @@ local FileIcon = {
         self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
     end,
     provider = function(self)
-        return self.icon and (" ".. self.icon .. " ")
+        return self.icon and (" " .. self.icon .. " ")
     end,
     hl = function(self)
         return { fg = self.icon_color }
@@ -210,7 +211,7 @@ local FileNameModifer = {
     hl = function()
         if vim.bo.modified then
             -- use `force` because we need to override the child's hl foreground
-            return { fg = "cyan", bold = true, force=true }
+            return { fg = "cyan", bold = true, force = true }
         end
     end,
 }
@@ -220,30 +221,25 @@ FileNameBlock = utils.insert(FileNameBlock,
     FileIcon,
     utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
     FileFlags,
-    { provider = '%<'} -- this means that the statusline is cut here when there's not enough space
+    { provider = '%<' }                      -- this means that the statusline is cut here when there's not enough space
 )
 
 local Diagnostics = {
-
     -- condition = conditions.has_diagnostics,
-    condition = function () return true end,
-
+    condition = function() return true end,
     static = {
         error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
         warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
         info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
         hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
     },
-
     init = function(self)
         self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
         self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
         self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
         self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
     end,
-
     update = { "DiagnosticChanged", "BufEnter" },
-
     {
         provider = "",
     },
@@ -283,17 +279,14 @@ local Diagnostics = {
 
 local Git = {
     condition = conditions.is_git_repo,
-
     init = function(self)
         self.status_dict = vim.b.gitsigns_status_dict
         -- self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
         self.has_changes = true
-        end,
-
+    end,
     hl = { fg = "orange", bg = colors.bright_bg },
-
-
-    {   -- git branch name
+    {
+      -- git branch name
         provider = function(self)
             return "  " .. self.status_dict.head
         end,
@@ -311,7 +304,7 @@ local Git = {
         provider = function(self)
             local count = self.status_dict.added or 0
             -- return count > 0 and ("+" .. count)
-            return  "+" .. count .. " "
+            return "+" .. count .. " "
         end,
         hl = { fg = colors.git_add },
     },
@@ -340,7 +333,7 @@ local Git = {
 }
 
 -- I take no credits for this! :lion:
-local ScrollBar ={
+local ScrollBar = {
     static = {
         sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
         -- Another variant, because the more choice the better.
@@ -355,26 +348,26 @@ local ScrollBar ={
     hl = { fg = colors.dir_fg, bg = colors.bright_bg },
 }
 
-local FileEncoding = {
-    provider = function()
-        local enc = (vim.bo.fenc ~= '' and vim.bo.fenc) or vim.o.enc -- :h 'enc'
-        return enc ~= 'utf-8' and enc:upper()
-    end
-}
+-- local FileEncoding = {
+--     provider = function()
+--         local enc = (vim.bo.fenc ~= '' and vim.bo.fenc) or vim.o.enc -- :h 'enc'
+--         return enc ~= 'utf-8' and enc:upper()
+--     end
+-- }
 
-local FileType = {
-    provider = function()
-        return string.upper(vim.bo.filetype) .. ' '
-    end,
-    hl = { fg = utils.get_highlight("Type").fg, bold = true },
-}
+-- local FileType = {
+--     provider = function()
+--         return string.upper(vim.bo.filetype) .. ' '
+--     end,
+--     hl = { fg = utils.get_highlight("Type").fg, bold = true },
+-- }
 
 local FileFormat = {
     provider = function()
         local fmt = " " .. vim.bo.fileformat .. " "
         return fmt ~= 'unix' and fmt:upper()
     end,
-    hl = {fg = colors.normal_fg, bold = true ,bg = colors.bright_bg},
+    hl = { fg = colors.normal_fg, bold = true, bg = colors.bright_bg },
 }
 
 -- We're getting minimalists here!
@@ -389,29 +382,28 @@ local Ruler = {
 
 local Sep = {
     provider = "|",
-    hl = {bg = colors.bright_bg}
+    hl = { bg = colors.bright_bg }
 }
 
 local LSPActive = {
     condition = conditions.lsp_attached,
-    update = {'LspAttach', 'LspDetach'},
-
+    update    = { 'LspAttach', 'LspDetach' },
     -- You can keep it simple,
     -- provider = " [LSP]",
 
     -- Or complicate things a bit and get the servers names
     provider  = function()
         local names = {}
-        for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+        for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
             table.insert(names, server.name)
         end
         -- return "  [" .. table.concat(names, ", ") .. "]"
         return "  " .. names[1] .. " "
     end,
-    hl = { fg = colors.normal_fg, bold = true, bg = colors.bright_bg },
+    hl        = { fg = colors.normal_fg, bold = true, bg = colors.bright_bg },
 }
 
-local Space = { 
+local Space = {
     provider = " ",
     bg = colors.bright_bg,
 }
@@ -420,7 +412,8 @@ local Align = { provider = "%=" }
 
 
 local StatusLine = {
-    {{ViMode, Diagnostics, Git},{Align}, {Space, LSPActive, Sep, FileFormat, FileNameBlock, Ruler, Space, ScrollBar, Space}}
+    { { ViMode, Diagnostics, Git }, { Align },
+        { Space, LSPActive, Sep, FileFormat, FileNameBlock, Ruler, Space, ScrollBar, Space } }
 }
 
 heirline.setup({

@@ -31,9 +31,9 @@ lsp.preset({
 
 lsp.ensure_installed({
     'lua_ls',
-    'tsserver',
-    'pyright',
-    'rust_analyzer'
+    -- 'tsserver',
+    -- 'pyright',
+    -- 'rust_analyzer'
 })
 
 lsp.configure("sumneko_lua", {
@@ -110,10 +110,10 @@ local null_opts = lsp.build_options("null-ls", {})
 require('mason-null-ls').setup({
     ensure_installed = {
         "stylua",
-        "black",
+        -- "black",
         "prettier",
         "flake8",
-        "autopep8"
+        -- "autopep8"
     },
     automatic_setup = true,
     handlers = {},
@@ -138,9 +138,9 @@ null_ls.setup({
     debug = false,
     sources = {
         formatting.prettier.with({ extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } }),
-        formatting.black.with({ extra_args = { "--fast" } }),
+        -- formatting.black.with({ extra_args = { "--fast" } }),
         formatting.stylua,
-        formatting.autopep8,
+        formatting.autopep8.with({extra_args = {"--aggressive", "--aggressive"}}),
         diagnostics.flake8,
     },
 })
@@ -148,9 +148,9 @@ null_ls.setup({
 
 local config = {
     virtual_text = false, -- disable virtual text
-    signs = {
-        active = signs,  -- show signs
-    },
+    -- signs = {
+    --     active = signs,  -- show signs
+    -- },
     update_in_insert = true,
     underline = true,
     severity_sort = true,

@@ -25,4 +25,4 @@ require "luis.whichkey"
 --     print("no terminal")
 -- end
 -- print(vim.opt.number:get())
--- print(vim.g.gruvbox_termcolors)
+-- print(vim.g.gru
